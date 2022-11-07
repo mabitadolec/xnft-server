@@ -1,0 +1,61 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model DataQueueRequests {
+  id             Int       @id @default(autoincrement())
+  burnerContract String
+  txHash         String    @unique
+  data           Json
+  status         String
+  created_at     DateTime  @default(now())
+  updated_at     DateTime  @default(now())
+  deleted_at     DateTime?
+}
+
+model DataMintEvents {
+  id          Int       @id @default(autoincrement())
+  burntxHash  String    @unique
+  txHash      String    @unique
+  receiver    String
+  nftContract String
+  tokenID     String
+  data        Json
+  status      String
+  created_at  DateTime  @default(now())
+  updated_at  DateTime  @default(now())
+  deleted_at  DateTime?
+}
+
+model DataTransactionStatus {
+  id          Int       @id @default(autoincrement())
+  txHash      String    @unique
+  burnTXHash  String
+  mintTXHash  String?
+  mintedToken String?
+  status      String
+  created_at  DateTime  @default(now())
+  updated_at  DateTime  @default(now())
+  deleted_at  DateTime?
+}
+
+model DataMintDetailsRecords {
+  id                       String   @id
+  gas_maxFeePerGas         String
+  gas_maxPriorityFeePerGas String
+  gas_gasLimit             String
+  gas_nonce                String
+  input_to                 String
+  input_hash               String
+  input_proof              String
+  created_at               DateTime @default(now())
+  updated_at               DateTime @default(now())
+}
